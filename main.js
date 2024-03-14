@@ -1,0 +1,41 @@
+const canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+let balls = [];
+
+function render() {
+  ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+  ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+  // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  for (let i = 0; i < balls.length; i++) {
+    draw(balls[i]);
+    animate(balls[i]);
+  }
+  requestAnimationFrame(render);
+}
+
+function draw(ball) {
+  ctx.beginPath();
+  ctx.fillStyle = "blue";
+  ctx.arc(ball.x, ball.y, 5, 0, Math.PI * 2, false);
+  ctx.fill();
+  ctx.closePath();
+}
+
+function animate(ball) {
+  ball.y += ball.vy;
+}
+
+render();
+
+window.addEventListener("mousemove", function (e) {
+  balls.push({
+    x: e.clientX,
+    y: e.clientY,
+    vy: Math.random() * 3 + 2,
+  });
+  console.log(balls);
+});
